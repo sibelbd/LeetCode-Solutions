@@ -1,4 +1,7 @@
-"""Given a 32-bit signed integer, reverse digits of an integer.
+"""
+Final Result: 48ms runtime, faster than 100% of python3 submissions
+
+Given a 32-bit signed integer, reverse digits of an integer.
 
 Example 1:
 
