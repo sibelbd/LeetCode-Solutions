@@ -44,7 +44,7 @@ class Solution:
         reversed_int = int(reversed_int)
         
         # return zero if reversed int is too large for 32-bit signed int
-        if reversed_int<=2**31 and reversed_int>=-2**31:
+        if abs(reversed_int)<=2**31:
             return reversed_int
         else:
             return 0
