@@ -1,0 +1,73 @@
+# 4) Median of Two Sorted Array
+
+#There are two sorted arrays nums1 and nums2 of size m and n respectively.
+
+#Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+
+#You may assume nums1 and nums2 cannot be both empty.
+
+# Results:
+# Runtime: 104 ms, faster than 87.64% of Python3 online submissions for Median of Two Sorted Arrays.
+# Memory Usage: 14 MB, less than 5.71% of Python3 online submissions for Median of Two Sorted Arrays.
+
+# Runtime's not looking bad!
+# There's probably a way to make this a bit less memory intensive, maybe in line 57.
+# I'm essentially adding the rest of the sorted list to the orginal list there,
+# then in the next line removing from halfway to the end. Maybe there's a way to not add it in the first place.
+# Perhaps there's a more efficient algorithm as well?
+# This is my first completed hard! Yay!
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        
+        # ints to hold list sizes
+        nums1size = len(nums1)
+        nums2size = len(nums2)
+        
+        # counters to merge sorted lists
+        i = 0
+        j = 0
+        
+        # empty final list
+        final_list = []
+        
+        # set a halfway point to find median
+        # if there are two medians, meaning total list length is even
+        if nums1size + nums2size % 2 == 1:
+            # we're adding 1 here so that halfway point rounds up to the 
+            # next whole number, so we can reference both the first and
+            # the second median numbers in the list
+            halfway_point = (nums1size + nums2size + 1)/2  
+        # if there is only one median, meaning total list length is odd
+        else:
+            halfway_point = ((nums1size + nums2size) / 2) + 1
+        
+        # merge lists while both lists still have numbers and
+        # while the final list has less #'s than the median
+        while i < nums1size and j < nums2size and len(final_list) <= halfway_point:
+            # Whichever list has the smaller number, that number gets added to final_list
+            # then, the list index is incremented. This works because the lists are sorted.
+            if nums1[i] < nums2[j]:
+                final_list.append(nums1[i])
+                i = i + 1
+            else:
+                final_list.append(nums2[j])
+                j = j + 1
+
+        # if the length of final_list is less than the median
+        # this could be the case when one list is very long and the other
+        # is short, fulfills the while loop, and as a result final_list is short
+        if len(final_list) <= halfway_point:
+            # add the remaining sorted numbers to the end of final_list
+            final_list = final_list + nums1[i:] + nums2[j:] 
+        # parse final list to the halfway point because we only need the median
+        final_list = final_list[:int(halfway_point)]        
+        
+        # if only one median, return last number in list
+        if (nums1size + nums2size) % 2 == 1:
+            return float(final_list[-1])
+        
+        #if two medians, find average of last and second to last items
+        else:
+            return float((final_list[-1] + final_list[-2]) / 2)
+        
