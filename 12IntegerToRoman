@@ -1,0 +1,99 @@
+# 12) Integer to Roman
+# Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+# Symbol       Value
+# I             1
+# V             5
+# X             10
+# L             50
+# C             100
+# D             500
+# M             1000
+# For example, two is written as II in Roman numeral, just two one's added together. Twelve is written as, XII, which is simply X + II. The number twenty seven is written as XXVII, which is XX + V + II.
+
+# Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+# I can be placed before V (5) and X (10) to make 4 and 9. 
+# X can be placed before L (50) and C (100) to make 40 and 90. 
+# C can be placed before D (500) and M (1000) to make 400 and 900.
+# Given an integer, convert it to a roman numeral. Input is guaranteed to be within the range from 1 to 3999.
+
+
+# Final Results:
+
+# Runtime: 48 ms, faster than 94.61% of Python3 online submissions for Integer to Roman.
+# Memory Usage: 13.9 MB, less than 6.15% of Python3 online submissions for Integer to Roman.
+
+# I'm proud of my time complexity, however I seem to have a problem with memory usage again! Clearly this is something
+# I should study up on. I think the cases below and code is straight forward for the most part. The first half of the if
+# statements address the cases where a numeral needs a smaller numeral in front of it (ex. IX to make 9). The second
+# half is to address normal cases where no smaller front numeral is needed. We work our way from large numerals to smaller ones.
+# I use remainders to figure out how many numerals are needed. Numerals work similar to an abacus, which makes this optimal.
+# To improve upon this, I would put the numbers used in the if statements into a dictionary and use another data structure 
+# to iterate through and plug numbers into a function that contains the if statement, because the if statements are largely the same.
+
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        numerals = ""
+        
+        # a variable to hold number of numerals 
+        num_numeral = num //1000
+        if num % 1000 >= 900 and num % 1000 < 1000:
+            numerals = numerals + "M" * num_numeral + "CM"
+            num = num - (((num_numeral + 1) * 1000) - 100)
+        elif num_numeral != 0:                         
+            numerals = numerals + "M" * num_numeral
+            num = num - num_numeral * 1000
+        
+        # number of D
+        num_numeral = num//500
+        if num % 500 >= 400 and num % 500 < 500:
+            numerals = numerals + "D" * num_numeral + "CD"
+            num = num - (((num_numeral + 1) * 500) - 100)
+        elif num_numeral != 0:
+            numerals = numerals + "D" * num_numeral
+            num = num - num_numeral * 500
+        
+        # number of C
+        num_numeral = num//100
+        
+        if num % 100 >= 90 and num % 100 < 100:
+            numerals = numerals + "C" * num_numeral + "XC"
+            num = num - (((num_numeral + 1) * 100) - 10)
+        elif num_numeral != 0:
+            numerals = numerals + "C" * num_numeral
+            num = num - num_numeral * 100
+        
+        # number of L
+        num_numeral = num//50
+        if num % 50 >= 40 and num % 50 < 50:
+            numerals = numerals + "L" * num_numeral + "XL"
+            num = num - (((num_numeral + 1) * 50) - 10)
+        elif num_numeral != 0:
+            numerals = numerals + "L" * num_numeral
+            num = num - num_numeral * 50
+        
+        # number of x
+        num_numeral = num//10
+        if num % 10 >= 9 and num % 10 < 10:
+            numerals = numerals + "X" * num_numeral + "IX"
+            num = num - (((num_numeral + 1) * 10) - 1)
+        elif num_numeral != 0:
+            numerals = numerals + "X" * num_numeral
+            num = num - num_numeral * 10
+            
+        # number of V
+        num_numeral = num//5    
+        if num % 5 >= 4 and num % 5 < 5:
+            numerals = numerals + "V" * num_numeral + "IV"
+            num = num - (((num_numeral + 1) * 5) - 1)
+            print(numerals)
+        elif num_numeral != 0:
+            numerals = numerals + "V" * num_numeral
+            num = num - num_numeral * 5
+        
+        # number of I
+        numerals = numerals + "I" * num
+
+        # Return Final Numeral String
+        return numerals
